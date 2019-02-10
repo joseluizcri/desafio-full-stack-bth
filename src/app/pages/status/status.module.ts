@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +10,8 @@ import { StatusFormComponent } from './status-form/status-form.component';
   declarations: [StatusListComponent, StatusFormComponent],
   imports: [
     CommonModule,
-    StatusRoutingModule
+    StatusRoutingModule,
+    FormsModule
   ]
 })
 export class StatusModule { }
