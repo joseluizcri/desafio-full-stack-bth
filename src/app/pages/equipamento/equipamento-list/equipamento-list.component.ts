@@ -17,13 +17,14 @@ export class EquipamentoListComponent implements OnInit {
     this.getAllEquipamentos();
   }
 
-  deleteStatus(id: string){
+  deleteEquip(id: string){
     if (confirm('deseja excluir?')){
       this.equipService.deleteEquip(id).subscribe(
         result => console.log(result),
-        err => console.error(err)
+        err => console.error(err),
+        () => this.getAllEquipamentos()
         );
-      this.getAllEquipamentos();
+      
     }
   }
 

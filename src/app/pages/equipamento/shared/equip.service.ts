@@ -32,6 +32,14 @@ export class EquipService {
       map(this.jsonDataOneStatus)
     );
   }
+
+  getBySN(id:String): Observable<Equip>{
+    return this.http.get(this.apiPath+'/'+id+'/sn')
+    .pipe(
+      map(this.jsonDataOneStatus),
+      map(this.jsonDataOneStatus)
+    );
+  }
   
   deleteEquip(id:String): Observable<any>{
       return this.http.delete(this.apiPath+'/'+id);

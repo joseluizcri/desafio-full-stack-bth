@@ -26,8 +26,15 @@ export class PessoaService {
   }
   
   getById(id:String): Observable<Pessoa>{
-    console.log('GETBYID - PESSOA');
     return this.http.get(this.apiPath+'/'+id)
+    .pipe(
+      map(this.jsonDataOneStatus),
+      map(this.jsonDataOneStatus)
+    );
+  }
+
+  getByCpf(id:String): Observable<Pessoa>{
+    return this.http.get(this.apiPath+'/'+id+'/cpf')
     .pipe(
       map(this.jsonDataOneStatus),
       map(this.jsonDataOneStatus)

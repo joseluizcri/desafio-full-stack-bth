@@ -21,6 +21,8 @@ export class ChamadoListComponent implements OnInit {
 
   chamadoNovo: Chamado = new Chamado();
 
+  filtro: string;
+
 
   constructor(
     private chamadoService: ChamadoService,
@@ -32,18 +34,8 @@ export class ChamadoListComponent implements OnInit {
 
   ngOnInit() {
     
-    this.pessoaService.getById('5c5ce7db7a02d217883489ee').subscribe(cli => this.chamadoNovo.cliente = cli);
-    this.statusService.getById('5c5f565a7a02d21c580e0939').subscribe(dados=> this.chamadoNovo.status = dados);
-    this.equipService.getById('5c5f8c427a02d216c8aab748').subscribe(dados=> this.chamadoNovo.equipamento = dados);
-    this.userServide.getById('5c5fa1637a02d21d1c985e98').subscribe(dados=>this.chamadoNovo.responsavel = dados);
-    this.chamadoNovo.dataChamado = new Date();
-    this.chamadoNovo.dataEncerramento = new Date();
-    this.chamadoNovo.defeito = 'Não liga';
-    this.chamadoNovo.solucao = 'Realizado reparo na placa fonte';
-    //this.chamadoService.create(this.chamadoNovo).subscribe(dados => this.chamadoNovo = dados);
-    console.log(this.chamadoNovo);
+    
     this.getAllPessoas();
-    console.log('Lista do GET: '+this.chamadoList);
   }
 
   verChamadoLog(){

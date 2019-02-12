@@ -2,4 +2,34 @@
   <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
   <li class="breadcrumb-item active">Chamados</li>
 </ol>
-<button (click)="verChamadoLog()">ver</button>
+
+<div class="row mb-4">
+  <div class="col-md">
+    <h1 class="h2 border-left pl-2">Chamados</h1>
+  </div>
+  <div class="col-md">
+    <a routerLink="new" class="btn btn-light float-right">+ Abrir Chamado</a>
+  </div>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr class="bg-secondary text-light">
+      <th>Chamado</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let chamado of chamadoList">
+      <td>
+        <strong>Cliente: {{chamado.cliente.nome}}</strong><br>
+        <small>Equipamento: {{chamado.equipamento.modelo}} - Aberto em: {{chamado.dataChamado | date: 'dd/MM/yy HH:mm'}}</small><br>
+        <small>Defeito relatado: {{chamado.defeito}}</small>
+      </td>
+      <td>
+        <a [routerLink]="[chamado.id,'edit']" class="btn btn-outline-info btn-sm mr-2">Detalhes</a>
+        <button (click)="deleteChamado(chamado.id)" class="btn btn-outline-danger btn-sm">Apagar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

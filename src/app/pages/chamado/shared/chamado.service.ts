@@ -32,6 +32,8 @@ export class ChamadoService {
       map(this.jsonDataOneStatus)
     );
   }
+
+  
   
   deleteChamado(id:String): Observable<any>{
       return this.http.delete(this.apiPath+'/'+id);

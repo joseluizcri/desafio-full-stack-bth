@@ -23,15 +23,15 @@
 
         <div class="form-group col-md-4">
           <label for="cpf">CPF</label>
-          <input type="text" class="form-control" id="cpf" [(ngModel)]="pessoa.cpf" name="cpf" />
+          <input type="text" class="form-control" id="cpf" [(ngModel)]="chamado.cliente.cpf" name="cpf" (blur)="carregarPessoaBanco()"/>
         </div>
         <div class="form-group col-md-4">
           <label for="nome">Nome</label>
-          <input type="text" class="form-control" id="nome" [(ngModel)]="pessoa.nome" name="nome" />
+          <input type="text" class="form-control" id="nome" [(ngModel)]="chamado.cliente.nome" name="nome" />
         </div>
         <div class="form-group col-md-4">
           <label for="telefone">Telefone</label>
-          <input type="text" class="form-control" id="telefone" [(ngModel)]="pessoa.telefone" name="telefone" />
+          <input type="text" class="form-control" id="telefone" [(ngModel)]="chamado.cliente.telefone" name="telefone" />
         </div>
 
       </div>
@@ -39,11 +39,11 @@
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="email">E-mail</label>
-          <input type="email" class="form-control" id="email" [(ngModel)]="pessoa.email" name="email" />
+          <input type="email" class="form-control" id="email" [(ngModel)]="chamado.cliente.email" name="email" />
         </div>
         <div class="form-group col-md-8">
           <label for="end">Endereço</label>
-          <input type="text" class="form-control" id="end" [(ngModel)]="pessoa.endereco" name="end" />
+          <input type="text" class="form-control" id="end" [(ngModel)]="chamado.cliente.endereco" name="end" />
         </div>
 
       </div>
@@ -54,31 +54,48 @@
 
     <div class="card-body">
       <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="nome">Modelo</label>
-          <input type="text" class="form-control" id="nome" [(ngModel)]="equip.modelo" name="nome" />
-        </div>
+          <div class="form-group col-md-4">
+              <label for="sn">Numero de série</label>
+              <input type="text" class="form-control" id="sn" [(ngModel)]="chamado.equipamento.numeroSerie" name="sn" (blur)="carregarEquipamentoBanco()"/>
+            </div>
         <div class="form-group col-md-8">
-          <label for="descricao">Descrição</label>
-          <input type="text" class="form-control" id="descricao" [(ngModel)]="equip.descricao" name="descricao" />
+          <label for="modelo">Modelo</label>
+          <input type="text" class="form-control" id="modelo" [(ngModel)]="chamado.equipamento.modelo" name="modelo" />
         </div>
+        
 
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="tipo">Tipo</label>
-          <input type="text" class="form-control" id="tipo" [(ngModel)]="equip.tipo" name="tipo" />
+          <input type="text" class="form-control" id="tipo" [(ngModel)]="chamado.equipamento.tipo" name="tipo" />
         </div>
         <div class="form-group col-md-8">
-          <label for="sn">Numero de série</label>
-          <input type="text" class="form-control" id="sn" [(ngModel)]="equip.numeroSerie" name="sn" />
-        </div>
+            <label for="descricao">Descrição</label>
+            <input type="text" class="form-control" id="descricao" [(ngModel)]="chamado.equipamento.descricao" name="descricao" />
+          </div>
 
       </div>
     </div>
+    
   </div>
-  <button class="btn btn-primary btn-lg float-right mt-4" (click)="salvarPessoa()">Salvar</button>
+
+  <div class="card mt-4">
+    <div class="card-header">Dados adicionais do chamado</div>
+  
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="defeito">Defeito relatado</label>
+          <input type="text" class="form-control" id="defeito" [(ngModel)]="chamado.defeito" name="defeito"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <button class="btn btn-primary btn-lg float-right mt-4" (click)="salvarChamadoBanco()">Salvar</button>
 
 
 </form>
