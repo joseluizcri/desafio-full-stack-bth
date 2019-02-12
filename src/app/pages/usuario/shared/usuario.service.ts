@@ -32,6 +32,15 @@ export class UsuarioService {
       map(this.jsonDataOneStatus)
     );
   }
+
+  getByEmail(id:String): Observable<Usuario>{
+    console.log('URL API: '+this.apiPath+'/'+id+'/email')
+    return this.http.get(this.apiPath+'/'+id+'/email')
+    .pipe(
+      map(this.jsonDataOneStatus),
+      map(this.jsonDataOneStatus)
+    );
+  }
   
   deleteUsuario(id:String): Observable<any>{
       return this.http.delete(this.apiPath+'/'+id);

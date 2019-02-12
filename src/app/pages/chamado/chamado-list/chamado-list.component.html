@@ -28,7 +28,9 @@
       </td>
       <td>
         <a [routerLink]="[chamado.id,'edit']" class="btn btn-outline-info btn-sm mr-2">Detalhes</a>
-        <button (click)="deleteChamado(chamado.id)" class="btn btn-outline-danger btn-sm">Apagar</button>
+        <button (click)="deleteChamado(chamado.id)" class="btn btn-outline-danger btn-sm mr-2" *ngIf="funcao == 0">Apagar</button>
+        <button (click)="alert('aceitar')" class="btn btn-outline-success btn-sm" *ngIf="funcao == 1 && chamado.responsavel == undefined">Aceitar</button>
+        <button (click)="alert('aceitar')" class="btn btn-outline-danger btn-sm" *ngIf="funcao == 1 && chamado.responsavel != undefined && chamado.responsavel.id == usuarioLog.id">Finalizar</button>
       </td>
     </tr>
   </tbody>

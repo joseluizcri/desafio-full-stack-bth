@@ -1,3 +1,4 @@
+import { Usuario } from './pages/usuario/shared/usuario.model';
 import { AuthService } from './login-form/auth.service';
 
 import { Component } from '@angular/core';
@@ -10,6 +11,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'betha';
   mostrarMenu: boolean = false;
+  usuarioLogado: Usuario = new Usuario();
 
   constructor(private authService: AuthService){
 
@@ -18,6 +20,10 @@ export class AppComponent {
   ngOnInit(){
     this.authService.mostrarMenuEmitter.subscribe(
       mostrar => this.mostrarMenu = mostrar
+    );
+
+    this.authService.usuarioLogadoEmitter.subscribe(
+      mostrar => this.usuarioLogado = mostrar
     );
   }
 

@@ -1,6 +1,8 @@
+import { UsuarioService } from './../pages/usuario/shared/usuario.service';
 import { Usuario } from './../pages/usuario/shared/usuario.model';
 import { AuthService } from './auth.service';
 import { Component, OnInit } from '@angular/core';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-form',
@@ -10,17 +12,36 @@ import { Component, OnInit } from '@angular/core';
 export class LoginFormComponent implements OnInit {
 
   private usuario: Usuario = new Usuario();
+  private email: string;
+  private senha: string;
+  private msg: string;
 
-  constructor(private authService: AuthService) { }
+
+  constructor(private authService: AuthService, private usuarioService: UsuarioService) { }
 
   ngOnInit() {
     
   }
 
   logar(){
-    this.usuario.email = 'junior.joseluizrosa@gmail.com';
-    this.usuario.senha = '123456';
-    console.log(this.usuario);
-    this.authService.faserLogin(this.usuario);
+    this.usuarioService.getByEmail(this.email).subscribe(
+      dados => this.usuario = dados || this.usuario,
+      error=>console.log(error),
+      ()=>{
+        this.realizarLogin();
+      }
+      );
+    
+  }
+
+  realizarLogin(){
+    console.log('realizarLogin()')
+    if (this.authService.fazerLogin(this.email, this.senha, this.usuario)){
+      this.msg = "Login realizado com sucesso!";
+    }else{
+      this.msg = "Falha ao realizar login.";
+      this.email = "";
+      this.senha="";
+    }
   }
 }

@@ -1,3 +1,5 @@
+import { Usuario } from './../../usuario/shared/usuario.model';
+import { AppComponent } from './../../../app.component';
 import { Pessoa } from './../../pessoa/shared/pessoa.model';
 import { UsuarioService } from './../../usuario/shared/usuario.service';
 import { EquipService } from './../../equipamento/shared/equip.service';
@@ -19,6 +21,10 @@ export class ChamadoListComponent implements OnInit {
 
   chamadoList: Chamado[] = [];
 
+  funcao: string;
+
+  usuarioLog: Usuario;
+
   chamadoNovo: Chamado = new Chamado();
 
   filtro: string;
@@ -26,15 +32,14 @@ export class ChamadoListComponent implements OnInit {
 
   constructor(
     private chamadoService: ChamadoService,
-    private pessoaService: PessoaService,
-    private statusService: StatusService,
-    private equipService: EquipService,
-    private userServide: UsuarioService 
+    private appC: AppComponent 
     ) { }
 
   ngOnInit() {
-    
-    
+    this.usuarioLog = this.appC.usuarioLogado;
+    this.funcao= this.appC.usuarioLogado.funcao;
+    console.log("CHAMADOLIST: "+this.funcao);
+
     this.getAllPessoas();
   }
 
