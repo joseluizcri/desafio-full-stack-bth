@@ -1,3 +1,5 @@
+import { ID_STATUS_ABERTO, ID_STATUS_FINALIZADO } from './../../../variaveis.globais';
+import { StatusService } from './../../status/shared/status.service';
 import { ActivatedRoute } from '@angular/router';
 import { Chamado } from './../shared/chamado.model';
 import { ChamadoService } from './../shared/chamado.service';
@@ -25,12 +27,15 @@ export class ChamadoFormComponent implements OnInit {
 
   selectedId: string = 'novo';
 
+  statusIdFinalizado:string = ID_STATUS_FINALIZADO;
+
 
 
   constructor(
     private equipService: EquipService,
     private pessoaService: PessoaService,
     private chamadoService: ChamadoService,
+    private statusService: StatusService,
     private route: ActivatedRoute
   ) { }
 
@@ -48,6 +53,9 @@ export class ChamadoFormComponent implements OnInit {
     if (!this.novo){
       console.log(this.selectedId);
       this.chamadoService.getById(this.selectedId).subscribe(dados => this.chamado = dados);
+    }else{
+      //definido id status aberto
+      this.statusService.getById(ID_STATUS_ABERTO).subscribe(dados => this.chamado.status = dados || this.chamado.status);
     }
 
     

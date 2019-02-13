@@ -15,22 +15,29 @@
 <table class="table table-hover">
   <thead>
     <tr class="bg-secondary text-light">
-      <th>Chamado</th>
+      <th>Status</th>
+      <th>Cliente</th>
+      <th>Técnico</th>
+      <th>Equipamento</th>
+      <th>Abertura</th>
+      <th>Defeito</th>
       <th>Ações</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let chamado of chamadoList">
+      <td><span class="badge btn-block badge-primary">{{chamado.status.nome}}</span></td>
+      <td>{{chamado.cliente.nome}}</td>
+      <td><div *ngIf="chamado.responsavel != undefined">{{chamado.responsavel.nome}}</div></td>
+      <td>{{chamado.equipamento.modelo}} - {{chamado.equipamento.descricao}}</td>
+      <td>{{chamado.dataChamado | date: 'dd/MM/yy HH:mm'}}</td>
+      <td>{{chamado.defeito}}</td>
       <td>
-        <strong>Cliente: {{chamado.cliente.nome}}</strong><br>
-        <small>Equipamento: {{chamado.equipamento.modelo}} - Aberto em: {{chamado.dataChamado | date: 'dd/MM/yy HH:mm'}}</small><br>
-        <small>Defeito relatado: {{chamado.defeito}}</small>
-      </td>
-      <td>
-        <a [routerLink]="[chamado.id,'edit']" class="btn btn-outline-info btn-sm mr-2">Detalhes</a>
-        <button (click)="deleteChamado(chamado.id)" class="btn btn-outline-danger btn-sm mr-2" *ngIf="funcao == 0">Apagar</button>
-        <button (click)="alert('aceitar')" class="btn btn-outline-success btn-sm" *ngIf="funcao == 1 && chamado.responsavel == undefined">Aceitar</button>
-        <button (click)="alert('aceitar')" class="btn btn-outline-danger btn-sm" *ngIf="funcao == 1 && chamado.responsavel != undefined && chamado.responsavel.id == usuarioLog.id">Finalizar</button>
+        <a [routerLink]="[chamado.id,'detalhes']" class="btn btn-outline-info btn-sm mr-2 btn-block" *ngIf="chamado.responsavel != undefined || funcao == 1">Detalhes</a>
+        <a [routerLink]="[chamado.id,'edit']" class="btn btn-outline-warning btn-sm mr-2 btn-block" *ngIf="funcao == 0 && chamado.status.id == statusIdAberto && chamado.responsavel == undefined">Editar</a>
+        <button (click)="deleteChamado(chamado.id)" class="btn btn-outline-danger btn-sm mr-2 btn-block" *ngIf="funcao == 0 && chamado.status.id == statusIdAberto">Apagar</button>
+        <button (click)="aceitarChamado(chamado)" class="btn btn-outline-success btn-sm btn-block" *ngIf="funcao == 1 && chamado.responsavel == undefined">Aceitar</button>
+        <button (click)="finalizarChamado(chamado)" class="btn btn-outline-danger btn-sm btn-block" *ngIf="chamado.responsavel != undefined && (chamado.responsavel.id == usuarioLog.id || funcao == 0) && chamado.status.id != statusId && chamado.status.id != statusIdAberto">Finalizar</button>
       </td>
     </tr>
   </tbody>

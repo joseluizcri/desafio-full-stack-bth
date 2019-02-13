@@ -1,3 +1,4 @@
+import { ID_STATUS_ABERTO, ID_STATUS_FINALIZADO } from './../../../variaveis.globais';
 import { Usuario } from './../../usuario/shared/usuario.model';
 import { AppComponent } from './../../../app.component';
 import { Pessoa } from './../../pessoa/shared/pessoa.model';
@@ -10,7 +11,7 @@ import { Chamado } from './../shared/chamado.model';
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs/operators';
 
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-chamado-list',
@@ -20,6 +21,9 @@ import { ActivatedRoute} from '@angular/router';
 export class ChamadoListComponent implements OnInit {
 
   chamadoList: Chamado[] = [];
+  
+  statusId: string = ID_STATUS_FINALIZADO;
+  statusIdAberto: string = ID_STATUS_ABERTO;
 
   funcao: string;
 
@@ -32,21 +36,18 @@ export class ChamadoListComponent implements OnInit {
 
   constructor(
     private chamadoService: ChamadoService,
-    private appC: AppComponent 
+    private statusService: StatusService,
+    private appC: AppComponent,
+    private router: Router
     ) { }
 
   ngOnInit() {
     this.usuarioLog = this.appC.usuarioLogado;
     this.funcao= this.appC.usuarioLogado.funcao;
-    console.log("CHAMADOLIST: "+this.funcao);
 
     this.getAllPessoas();
   }
 
-  verChamadoLog(){
-    console.log(this.chamadoNovo);
-    this.chamadoService.create(this.chamadoNovo).subscribe(dados => this.chamadoNovo = dados);
-  }
 
   deleteChamado(id: string){
     if (confirm('deseja excluir?')){
@@ -56,6 +57,32 @@ export class ChamadoListComponent implements OnInit {
         );
       this.getAllPessoas();
     }
+  }
+
+  finalizarChamado(chamado: Chamado){
+    this.statusService.getById(ID_STATUS_FINALIZADO).subscribe(
+      dados => chamado.status = dados || chamado.status,
+      ()=>{},
+      ()=>{
+        this.chamadoService.create(chamado).subscribe(
+          result => console.log(result),
+          err => console.error(err),
+          ()=>{this.router.navigate(['/chamados'])}
+        )
+      }
+      );
+  }
+
+  aceitarChamado(chamado: Chamado){
+    if (confirm('Deseja atender este chamado?')) {
+      chamado.responsavel = this.usuarioLog;
+      this.chamadoService.create(chamado).subscribe(
+        result => console.log(result),
+        err => console.error(err),
+        () => { this.router.navigate(['/chamados']) }
+      )
+    }
+    
   }
 
   private getAllPessoas(){

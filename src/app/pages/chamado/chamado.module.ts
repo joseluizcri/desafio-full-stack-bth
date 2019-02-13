@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 import { ChamadoRoutingModule } from './chamado-routing.module';
 import { ChamadoListComponent } from './chamado-list/chamado-list.component';
 import { ChamadoFormComponent } from './chamado-form/chamado-form.component';
+import { ChamadoDetailComponent } from './chamado-detail/chamado-detail.component';
 
 @NgModule({
-  declarations: [ChamadoListComponent, ChamadoFormComponent],
+  declarations: [ChamadoListComponent, ChamadoFormComponent, ChamadoDetailComponent],
   imports: [
     CommonModule,
     ChamadoRoutingModule,

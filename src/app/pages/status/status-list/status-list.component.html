@@ -26,8 +26,14 @@
         <small>{{status.descricao}}</small>
       </td>
       <td>
-        <a [routerLink]="[status.id,'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-        <button (click)="deleteStatus(status.id)" class="btn btn-outline-danger btn-sm">Apagar</button>
+        <div *ngIf="
+        status.id !='5c5f565a7a02d21c580e0939' &&
+        status.id !='5c5f58597a02d21c580e093a' &&
+        status.id !='5c5f5b527a02d21ce4d2cb8d' &&
+        status.id !='5c6349277a02d21314f84164' ">
+          <a [routerLink]="[status.id,'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
+          <button (click)="deleteStatus(status.id)" class="btn btn-outline-danger btn-sm">Apagar</button>
+        </div>
       </td>
     </tr>
   </tbody>

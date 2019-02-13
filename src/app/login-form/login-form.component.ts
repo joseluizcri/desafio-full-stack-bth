@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UsuarioService } from './../pages/usuario/shared/usuario.service';
 import { Usuario } from './../pages/usuario/shared/usuario.model';
 import { AuthService } from './auth.service';
@@ -17,9 +18,14 @@ export class LoginFormComponent implements OnInit {
   private msg: string;
 
 
-  constructor(private authService: AuthService, private usuarioService: UsuarioService) { }
+  constructor(
+    private authService: AuthService,
+    private usuarioService: UsuarioService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
+    this.router.navigate(['/']);
     
   }
 
@@ -38,6 +44,8 @@ export class LoginFormComponent implements OnInit {
     console.log('realizarLogin()')
     if (this.authService.fazerLogin(this.email, this.senha, this.usuario)){
       this.msg = "Login realizado com sucesso!";
+      
+
     }else{
       this.msg = "Falha ao realizar login.";
       this.email = "";

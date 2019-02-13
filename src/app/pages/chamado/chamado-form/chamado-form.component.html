@@ -88,14 +88,15 @@
       <div class="form-row">
         <div class="form-group col-md-12">
           <label for="defeito">Defeito relatado</label>
-          <input type="text" class="form-control" id="defeito" [(ngModel)]="chamado.defeito" name="defeito"/>
+          <textarea name="defeito" class="form-control" id="defeito" rows="4" [(ngModel)]="chamado.defeito"></textarea>
+          
         </div>
       </div>
     </div>
   </div>
 
 
-  <button class="btn btn-primary btn-lg float-right mt-4" (click)="salvarChamadoBanco()">Salvar</button>
+  <button class="btn btn-primary btn-lg float-right mt-4" (click)="salvarChamadoBanco()" *ngIf="statusIdFinalizado != chamado.status.id">Salvar</button>
 
 
 </form>
