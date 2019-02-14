@@ -95,6 +95,42 @@
     </div>
   </div>
 
+  <div id="accordion" *ngIf="!novo">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+            aria-controls="collapseOne">
+            Histórico do chamado
+          </button>
+        </h5>
+      </div>
+  
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr class="bg-secondary text-light">
+                <th>Status</th>
+                <th>Definido por</th>
+                <th>Obs</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let historico of historicoList">
+                <td>{{historico.status.nome}}</td>
+                <td>{{historico.usuario.nome}}</td>
+                <td>{{historico.obs}}</td>
+                <td>{{historico.data | date: 'dd/MM/yy HH:mm'}}</td>
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <button class="btn btn-primary btn-lg float-right mt-4" (click)="salvarChamadoBanco()" *ngIf="statusIdFinalizado != chamado.status.id">Salvar</button>
 

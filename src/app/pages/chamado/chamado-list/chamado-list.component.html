@@ -37,7 +37,7 @@
         <a [routerLink]="[chamado.id,'edit']" class="btn btn-outline-warning btn-sm mr-2 btn-block" *ngIf="funcao == 0 && chamado.status.id == statusIdAberto && chamado.responsavel == undefined">Editar</a>
         <button (click)="deleteChamado(chamado.id)" class="btn btn-outline-danger btn-sm mr-2 btn-block" *ngIf="funcao == 0 && chamado.status.id == statusIdAberto">Apagar</button>
         <button (click)="aceitarChamado(chamado)" class="btn btn-outline-success btn-sm btn-block" *ngIf="funcao == 1 && chamado.responsavel == undefined">Aceitar</button>
-        <button (click)="finalizarChamado(chamado)" class="btn btn-outline-danger btn-sm btn-block" *ngIf="chamado.responsavel != undefined && (chamado.responsavel.id == usuarioLog.id || funcao == 0) && chamado.status.id != statusId && chamado.status.id != statusIdAberto">Finalizar</button>
+        <button (click)="finalizarChamado(chamado)" class="btn btn-outline-danger btn-sm btn-block" *ngIf="chamado.responsavel != undefined && (chamado.responsavel.id == usuarioLog.id || funcao == 0) && chamado.status.id != statusId">Finalizar</button>
       </td>
     </tr>
   </tbody>

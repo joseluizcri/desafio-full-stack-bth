@@ -15,7 +15,7 @@ export class AuthService {
 
   fazerLogin(email: string, senha:string, usuario: Usuario):Boolean{
     console.log(usuario.email);
-    console.log(usuario.senha);
+    console.log(usuario.id);
     if (email === usuario.email &&
     senha===usuario.senha){
       console.log('LOGADO COMO: '+usuario.nome);

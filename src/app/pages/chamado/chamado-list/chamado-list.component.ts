@@ -1,3 +1,5 @@
+import { Status } from './../../status/shared/status.model';
+import { HistoricoChamado } from './../shared/historico-chamado.model';
 import { ID_STATUS_ABERTO, ID_STATUS_FINALIZADO } from './../../../variaveis.globais';
 import { Usuario } from './../../usuario/shared/usuario.model';
 import { AppComponent } from './../../../app.component';
@@ -12,6 +14,7 @@ import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs/operators';
 
 import { ActivatedRoute, Router} from '@angular/router';
+import { atualizarStatus } from '../shared/funcoes.chamado';
 
 @Component({
   selector: 'app-chamado-list',
@@ -21,6 +24,8 @@ import { ActivatedRoute, Router} from '@angular/router';
 export class ChamadoListComponent implements OnInit {
 
   chamadoList: Chamado[] = [];
+
+  historico: HistoricoChamado = new HistoricoChamado();
   
   statusId: string = ID_STATUS_FINALIZADO;
   statusIdAberto: string = ID_STATUS_ABERTO;
@@ -65,9 +70,12 @@ export class ChamadoListComponent implements OnInit {
       ()=>{},
       ()=>{
         this.chamadoService.create(chamado).subscribe(
-          result => console.log(result),
+          dados => this.chamadoNovo = dados,
           err => console.error(err),
-          ()=>{this.router.navigate(['/chamados'])}
+          ()=>{
+            atualizarStatus(chamado,this.appC.usuarioLogado,"CHAMADO FINALIZADO",this.chamadoService);
+            this.router.navigate(['/chamados'])
+          }
         )
       }
       );
@@ -77,13 +85,18 @@ export class ChamadoListComponent implements OnInit {
     if (confirm('Deseja atender este chamado?')) {
       chamado.responsavel = this.usuarioLog;
       this.chamadoService.create(chamado).subscribe(
-        result => console.log(result),
+        dados => this.chamadoNovo = dados,
         err => console.error(err),
-        () => { this.router.navigate(['/chamados']) }
+        () => {
+          atualizarStatus(chamado,this.appC.usuarioLogado,"CHAMADO ACEITO",this.chamadoService);
+          this.router.navigate(['/chamados']);
+        }
       )
     }
     
   }
+
+  
 
   private getAllPessoas(){
     this.chamadoService.getAll().subscribe(dados => this.chamadoList = dados);
