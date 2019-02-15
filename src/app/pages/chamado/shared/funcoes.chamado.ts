@@ -9,5 +9,6 @@ export function atualizarStatus(chamado: Chamado, user: Usuario, obs: string, se
     h.obs = obs;
     h.data = new Date();
     h.status = chamado.status;
+    console.log(chamado.status);
     service.gravarHistorico(h).subscribe();
   }

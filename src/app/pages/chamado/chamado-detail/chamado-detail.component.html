@@ -96,9 +96,22 @@
             <textarea name="solucao" class="form-control" id="solucao" rows="4" [(ngModel)]="chamado.solucao"></textarea>
       
           </div>
+              <div class="form-group col-md-3">
+                  <label for="defeito">Definir um status personalizado:</label>
+                <select class="form-control" name="statusp" id="statusp" [(ngModel)]="novoStatus">
+                  <option *ngFor="let status of statusList" [ngValue]="status">{{status.nome}}</option>
+                </select>
+              </div>
+              
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+              <button class="btn btn-primary btn-lg float-right mt-4" (click)="atualizarChamado()" *ngIf="chamado.responsavel != undefined && (statusIdFinalizado != chamado.status.id && (usuarioLog.id == chamado.responsavel.id || usuarioLog.funcao == 0))">Salvar</button>
+          </div>
         </div>
       </div>
     </div>
+    
 
     <div id="accordion">
       <div class="card">
@@ -110,7 +123,7 @@
             </button>
           </h5>
         </div>
-    
+        
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
           <div class="card-body">
             <table class="table table-hover">
@@ -137,8 +150,8 @@
       </div>
     </div>
   
-  
-    <button class="btn btn-primary btn-lg float-right mt-4" (click)="atualizarChamado()" *ngIf="chamado.responsavel != undefined && (statusIdFinalizado != chamado.status.id && (usuarioLog.id == chamado.responsavel.id || usuarioLog.funcao == 0))">Salvar</button>
+    
+      
   
   
   </form>

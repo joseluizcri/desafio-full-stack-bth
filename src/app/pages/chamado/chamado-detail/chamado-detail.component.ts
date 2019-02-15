@@ -1,3 +1,5 @@
+import { StatusService } from './../../status/shared/status.service';
+import { ID_STATUS_FINALIZADO } from './../../../variaveis.globais';
 import { HistoricoChamado } from './../shared/historico-chamado.model';
 import { Status } from './../../status/shared/status.model';
 import { Usuario } from './../../usuario/shared/usuario.model';
@@ -8,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Pessoa } from '../../pessoa/shared/pessoa.model';
 import { Equip } from '../../equipamento/shared/equip.model';
+import { atualizarStatus } from '../shared/funcoes.chamado';
 
 @Component({
   selector: 'app-chamado-detail',
@@ -19,6 +22,8 @@ export class ChamadoDetailComponent implements OnInit {
   selectedId: string;
   chamado: Chamado = new Chamado();
   chamadoBanco: Chamado = new Chamado();
+  statusList: Status[];
+  novoStatus: Status;
 
   historicoList: HistoricoChamado[] = [];
 
@@ -30,6 +35,7 @@ export class ChamadoDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private chamadoService: ChamadoService,
     private appC: AppComponent,
+    private statusService: StatusService,
     private router: Router
   ) { }
 
@@ -47,11 +53,21 @@ export class ChamadoDetailComponent implements OnInit {
 
     this.usuarioLog = this.appC.usuarioLogado;
 
-    this.chamadoService.getById(this.selectedId).subscribe(dados => this.chamado = dados);
+    this.chamadoService.getById(this.selectedId).subscribe(
+      dados => this.chamado = dados,
+      ()=>{},
+      ()=>{
+        
+        this.statusService.getAllPersonalizado().subscribe(dados => this.statusList = dados);
+      }
+      );
     this.getAllHistorico(this.selectedId);
   }
 
   atualizarChamado(){
+    if(this.novoStatus != undefined){
+      this.chamado.status = this.novoStatus;
+    }
 
     this.chamadoService.create(this.chamado).subscribe(
       dados => this.chamado = dados,
@@ -59,12 +75,8 @@ export class ChamadoDetailComponent implements OnInit {
       ()=>{
         
         this.historico.chamado = this.chamado;
-        console.log(this.historico);
-        this.chamadoService.gravarHistorico(this.historico).subscribe(
-          dados => this.historico = dados,
-          err=>console.log('Erro >>>>>>>>>>>>>>>>>>> '+err),
-          ()=>{this.router.navigate(['/chamados'])}
-        );
+        atualizarStatus(this.chamado, this.appC.usuarioLogado,"UPDATE",this.chamadoService);
+        this.router.navigate(['/chamados']);
         
       }
       );
@@ -72,8 +84,34 @@ export class ChamadoDetailComponent implements OnInit {
     //implementar navigate
   }
 
+  finalizarChamado(){
+    if (confirm("Deseja realmente finalizar este chamado?")){
+      if (this.chamado.solucao != undefined){
+        this.statusService.getById(ID_STATUS_FINALIZADO).subscribe(
+          dados => this.chamado.status = dados || this.chamado.status,
+          ()=>{},
+          ()=>{
+            this.chamadoService.create(this.chamado).subscribe(
+              dados => this.chamado = dados,
+              err => console.error(err),
+              ()=>{
+                atualizarStatus(this.chamado,this.appC.usuarioLogado,"CHAMADO FINALIZADO",this.chamadoService);
+                this.router.navigate(['/chamados'])
+              }
+            )
+          }
+          );
+      }else{
+        alert("Você precisa informar a solução para o chamado ante de finalizar.")
+      }
+    }
+    
+  }
+
   private getAllHistorico(id: string){
     this.chamadoService.getHistorico(id).subscribe(dados => this.historicoList = dados);
   }
+
+  
 
 }

@@ -1,6 +1,6 @@
 import { PessoaService } from './../shared/pessoa.service';
 import { Pessoa } from './../shared/pessoa.model';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -19,7 +19,8 @@ export class PessoaFormComponent implements OnInit {
 
   constructor(
     private pessoaService: PessoaService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -36,7 +37,11 @@ export class PessoaFormComponent implements OnInit {
   }
 
   salvarPessoa(){
-    this.pessoaService.create(this.pessoa).subscribe(dados => this.pessoaNew = dados);
+    this.pessoaService.create(this.pessoa).subscribe(
+      dados => this.pessoaNew = dados,
+      ()=>{},
+      ()=>{this.router.navigate(['/pessoas'])}
+      );
     this.pessoa = new Pessoa();
     
   }

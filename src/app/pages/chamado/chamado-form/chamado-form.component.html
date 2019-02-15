@@ -94,6 +94,9 @@
       </div>
     </div>
   </div>
+  <div class="col-md-12">
+    <button class="btn btn-primary btn-lg float-right mt-4" (click)="salvarChamadoBanco()"*ngIf="statusIdFinalizado != chamado.status.id">Salvar</button>
+  </div>
 
   <div id="accordion" *ngIf="!novo">
     <div class="card">
@@ -132,7 +135,6 @@
     </div>
   </div>
 
-  <button class="btn btn-primary btn-lg float-right mt-4" (click)="salvarChamadoBanco()" *ngIf="statusIdFinalizado != chamado.status.id">Salvar</button>
-
+  
 
 </form>

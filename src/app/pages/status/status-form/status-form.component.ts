@@ -1,4 +1,4 @@
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StatusService } from './../shared/status.service';
 import { Status } from './../shared/status.model';
 import { Component, OnInit } from '@angular/core';
@@ -22,10 +22,12 @@ export class StatusFormComponent implements OnInit {
 
   constructor(
     private statusService: StatusService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.status.isPersonalizado = true;
     this.route.paramMap.subscribe(
       params => {
         this.selectedId = params.get('id') || "novo";
@@ -39,7 +41,11 @@ export class StatusFormComponent implements OnInit {
   }
 
   salvarStatus(){
-    this.statusService.create(this.status).subscribe(dados => this.statusNew = dados);
+    this.statusService.create(this.status).subscribe(
+      dados => this.statusNew = dados,
+      ()=>{},
+      ()=>{this.router.navigate(['/status'])}
+      );
     this.status = new Status;
     
   }

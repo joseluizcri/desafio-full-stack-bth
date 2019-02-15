@@ -14,6 +14,7 @@ import { EquipService } from '../../equipamento/shared/equip.service';
 import { delay } from 'rxjs/operators';
 import { Status } from '../../status/shared/status.model';
 import { Usuario } from '../../usuario/shared/usuario.model';
+import { atualizarStatus } from '../shared/funcoes.chamado';
 
 @Component({
   selector: 'app-chamado-form',
@@ -68,6 +69,7 @@ export class ChamadoFormComponent implements OnInit {
       this.getAllHistorico(this.selectedId);
     }else{
       //definido id status aberto
+      this.chamado.dataChamado = new Date();
       this.statusService.getById(ID_STATUS_ABERTO).subscribe(dados => this.chamado.status = dados || this.chamado.status);
     }
 
@@ -101,11 +103,6 @@ export class ChamadoFormComponent implements OnInit {
 
 
   salvarChamadoBanco(){
-    this.chamado.dataChamado = new Date();
-    
-    this.historico.status = this.chamado.status;
-    this.historico.data = new Date();
-    this.historico.usuario = this.appC.usuarioLogado;
 
 
     this.equipService.create(this.chamado.equipamento).subscribe(
@@ -116,22 +113,13 @@ export class ChamadoFormComponent implements OnInit {
           dados => (this.chamado.cliente = dados),
           response => {console.log("GET call in error", response);},
           ()=>{
-            console.log(this.chamado.status.id);
-            console.log(this.chamado.cliente.id);
-            console.log(this.chamado.equipamento.id);
             this.chamadoService.create(this.chamado).subscribe(
+
               dados => this.chamado = dados,
               ()=>{},
               ()=>{
-                
-                this.historico.chamado = this.chamado;
-                console.log(this.historico);
-                this.chamadoService.gravarHistorico(this.historico).subscribe(
-                  dados => this.historico = dados,
-                  err=>console.log('Erro >>>>>>>>>>>>>>>>>>> '+err),
-                  ()=>{this.router.navigate(['/chamados'])}
-                );
-                
+                atualizarStatus(this.chamado, this.appC.usuarioLogado,"CREATE/UPDATE",this.chamadoService);
+                this.router.navigate(['/chamados']);
               }
               );
             

@@ -1,4 +1,4 @@
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Equip } from '../shared/equip.model';
 import { EquipService } from '../shared/equip.service';
@@ -19,7 +19,8 @@ export class EquipamentoFormComponent implements OnInit {
 
   constructor(
     private equipService: EquipService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -36,7 +37,11 @@ export class EquipamentoFormComponent implements OnInit {
   }
 
   salvarEquip(){
-    this.equipService.create(this.equip).subscribe(dados => this.equipNew = dados);
+    this.equipService.create(this.equip).subscribe(
+      dados => this.equipNew = dados,
+      ()=>{},
+      ()=>{this.router.navigate(['/equipamentos'])}
+      );
     this.equip = new Equip();
     
   }

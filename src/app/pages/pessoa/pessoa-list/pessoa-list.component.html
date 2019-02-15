@@ -23,7 +23,7 @@
       <tr *ngFor="let pessoa of pessoaList">
         <td>
           <strong>{{pessoa.nome}}</strong><br>
-          <small>{{pessoa.cpf}} - {{pessoa.telefone}}</small>
+          <small>{{pessoa.endereco}} - Telefone: {{pessoa.telefone}}</small>
         </td>
         <td>
           <a [routerLink]="[pessoa.id,'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>

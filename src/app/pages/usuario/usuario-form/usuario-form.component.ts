@@ -1,4 +1,4 @@
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../shared/usuario.model';
 import { UsuarioService } from '../shared/usuario.service';
@@ -19,7 +19,8 @@ export class UsuarioFormComponent implements OnInit {
 
   constructor(
     private usuarioService: UsuarioService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -36,7 +37,11 @@ export class UsuarioFormComponent implements OnInit {
   }
 
   salvarUsuario(){
-    this.usuarioService.create(this.usuario).subscribe(dados => this.usuarioNew = dados);
+    this.usuarioService.create(this.usuario).subscribe(
+      dados => this.usuarioNew = dados,
+      ()=>{},
+      ()=>{this.router.navigate(['/usuarios'])}
+    );
     this.usuario = new Usuario();
     
   }

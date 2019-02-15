@@ -16,6 +16,10 @@ export class UsuarioService {
   getAll(){
     return this.http.get<any[]>(this.apiPath);
   }
+
+  initUser(){
+    return this.http.get(this.apiPath+'/init');
+  }
   
   
   create(usuario: Usuario): Observable<Usuario>{

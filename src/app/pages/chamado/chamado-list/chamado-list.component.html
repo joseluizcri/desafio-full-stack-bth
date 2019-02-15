@@ -11,8 +11,24 @@
     <a routerLink="new" class="btn btn-light float-right">+ Abrir Chamado</a>
   </div>
 </div>
-
-<table class="table table-hover">
+<div class="form-row">
+  <div class="form-group col-md-3">
+    <select class="form-control" id="status" [(ngModel)]="stIdFilter">
+      <option value="all" selected>Todos os status</option>
+      <option *ngFor="let status of statusList" [value]="status.id">{{status.nome}}</option>
+    </select>
+  </div>
+  <div class="form-group col-md-3">
+    <select class="form-control" id="tec" [(ngModel)]="tecIdFilter">
+      <option value="all" selected>Todos os técnicos</option>
+      <option *ngFor="let tecnico of tecList" [value]="tecnico.id">{{tecnico.nome}}</option>
+    </select>
+  </div>
+  <div class="form-group col-md-3">
+    <button type="button" class="btn btn-primary" (click)="find()">Buscar</button>
+  </div>
+</div>
+<table class="table table-hover table-responsive">
   <thead>
     <tr class="bg-secondary text-light">
       <th>Status</th>
@@ -37,8 +53,10 @@
         <a [routerLink]="[chamado.id,'edit']" class="btn btn-outline-warning btn-sm mr-2 btn-block" *ngIf="funcao == 0 && chamado.status.id == statusIdAberto && chamado.responsavel == undefined">Editar</a>
         <button (click)="deleteChamado(chamado.id)" class="btn btn-outline-danger btn-sm mr-2 btn-block" *ngIf="funcao == 0 && chamado.status.id == statusIdAberto">Apagar</button>
         <button (click)="aceitarChamado(chamado)" class="btn btn-outline-success btn-sm btn-block" *ngIf="funcao == 1 && chamado.responsavel == undefined">Aceitar</button>
-        <button (click)="finalizarChamado(chamado)" class="btn btn-outline-danger btn-sm btn-block" *ngIf="chamado.responsavel != undefined && (chamado.responsavel.id == usuarioLog.id || funcao == 0) && chamado.status.id != statusId">Finalizar</button>
+        <button (click)="finalizarChamado(chamado)" class="btn btn-outline-danger btn-sm btn-block" *ngIf="(chamado.responsavel != undefined && (chamado.responsavel.id == usuarioLog.id || usuarioLog.funcao == 0) && chamado.status.id != statusId)">Finalizar</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+

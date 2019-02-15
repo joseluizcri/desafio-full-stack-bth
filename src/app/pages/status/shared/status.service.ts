@@ -14,8 +14,16 @@ export class StatusService {
   constructor(private http: HttpClient) { }
 
 
-getAll(){
-  return this.http.get<any[]>(this.apiPath);
+  getAll(){
+    return this.http.get<any[]>(this.apiPath);
+  }
+
+  initStatus(){
+    return this.http.get(this.apiPath+'/init');
+  }
+
+getAllPersonalizado(){
+  return this.http.get<any[]>(this.apiPath+'/p/true');
 }
 
 

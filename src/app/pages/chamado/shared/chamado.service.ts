@@ -18,6 +18,10 @@ export class ChamadoService {
   getAll(){
     return this.http.get<any[]>(this.apiPath);
   }
+
+  getAllByTecByStatus(status: string, tec: string){
+    return this.http.get<any[]>(this.apiPath+'/'+status+'/'+tec);
+  }
   
   
   create(chamado: Chamado): Observable<Chamado>{
